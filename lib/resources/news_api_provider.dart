@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter_news_app/models/item_model.dart';
+import 'package:flutter_news_app/resources/repository.dart';
 import 'package:http/http.dart' show Client;
 
-class NewsApiProvider {
+class NewsApiProvider implements Source {
   Client client = Client();
 
   final String root = 'https://hacker-news.firebaseio.com/v0';
@@ -13,7 +14,7 @@ class NewsApiProvider {
 
     final response = await client.get(url);
     final ids = json.decode(response.body);
-
+    //Casting of List
     return ids.cast<int>();
   }
 
