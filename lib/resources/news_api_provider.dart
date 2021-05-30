@@ -7,15 +7,17 @@ import 'package:http/http.dart' show Client;
 class NewsApiProvider implements Source {
   Client client = Client();
 
-  final String root = 'https://hacker-news.firebaseio.com/v0';
+  final String root = 'https://hacker-news.firebaseio.com/v0/user/jl.json';
 
   Future<List<int>> fetchTopIds() async {
-    var url = Uri.parse('$root/v0/topstories.json');
+    var url = Uri.parse('$root');
 
     final response = await client.get(url);
     final ids = json.decode(response.body);
+    final List<dynamic> listOfIds = ids['submitted'];
+    // print('Top stories $ids');
     //Casting of List
-    return ids.cast<int>();
+    return listOfIds.cast<int>();
   }
 
   Future<ItemModel> fetchItem(int id) async {
