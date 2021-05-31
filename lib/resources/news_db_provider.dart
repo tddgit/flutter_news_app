@@ -15,13 +15,14 @@ class NewsDbProvider implements Source, Cache {
   }
 
   @override
-  Future<List<int>?>? fetchTopIds() {
+  Future<List<int>?>? fetchTopIds() async {
     // Future.delayed(Duration());
     return null;
   }
 
   Future<void> init() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    final Directory documentsDirectory =
+        await getApplicationDocumentsDirectory();
     final String path = join(documentsDirectory.path, 'items.db');
     db = await openDatabase(
       path,
@@ -50,12 +51,11 @@ class NewsDbProvider implements Source, Cache {
   Future<ItemModel?> fetchItem(int id) async {
     final List<Map<String, dynamic>>? maps = await db?.query(
       "Items",
-      columns: null,
       where: 'id=?',
       whereArgs: <int>[id],
     );
 
-    if (maps != null && maps.length > 0) {
+    if (maps != null && maps.isNotEmpty) {
       return ItemModel.fromDb(maps.first);
     }
     return null;

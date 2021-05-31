@@ -5,7 +5,7 @@ import 'package:flutter_news_app/resources/repository.dart';
 import 'package:http/http.dart' show Client, Response;
 
 class NewsApiProvider implements Source {
-  final Client client = Client();
+  Client client = Client();
 
   final String root = 'https://hacker-news.firebaseio.com/v0/user/jl.json';
 
