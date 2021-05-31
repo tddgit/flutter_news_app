@@ -3,20 +3,20 @@ import 'package:rxdart/rxdart.dart';
 
 class StoriesBloc {
   final PublishSubject<List<int>> _topIds = PublishSubject<List<int>>();
-  final _repository = Repository();
+  final Repository _repository = Repository();
 
   //Getters to stream
   Stream<List<int>> get topIds => _topIds.stream;
 
-  fetchTopIds() async {
-    final ids = await _repository.fetchTopIds();
+  Future<void> fetchTopIds() async {
+    final List<int>? ids = await _repository.fetchTopIds();
     //Adding ids to stream
     if (ids != null) {
       _topIds.sink.add(ids);
     }
   }
 
-  dispose() {
+  void dispose() {
     _topIds.close();
   }
 }

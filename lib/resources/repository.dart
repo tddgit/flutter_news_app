@@ -1,16 +1,17 @@
 import 'package:flutter_news_app/models/item_model.dart';
+import 'package:flutter_news_app/resources/news_api_provider.dart';
 
-import 'news_api_provider.dart';
-import 'news_db_provider.dart';
+import 'package:flutter_news_app/resources/news_db_provider.dart';
 
-final newsDbProvider = NewsDbProvider();
+final NewsDbProvider newsDbProvider = NewsDbProvider();
 
 abstract class Source {
-  Future<List<int>>? fetchTopIds();
+  Future<List<int>?>? fetchTopIds();
 
   Future<ItemModel?> fetchItem(int id);
 }
 
+// ignore: one_member_abstracts
 abstract class Cache {
   Future<int>? addItem(ItemModel item);
 }
@@ -25,7 +26,7 @@ class Repository {
     newsDbProvider,
   ];
 
-  Future<List<int>>? fetchTopIds() {
+  Future<List<int>?>? fetchTopIds() {
     // Future.delayed(Duration());
     return sources[1].fetchTopIds();
   }
@@ -42,7 +43,7 @@ class Repository {
     }
 
     if (item != null) {
-      for (var cache in caches) {
+      for (final Cache cache in caches) {
         cache.addItem(item);
       }
       return item;
